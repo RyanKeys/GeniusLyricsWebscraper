@@ -22,7 +22,7 @@ var songlst = []Song {}
 
 // main() contains code adapted from example found in Colly's docs:
 // http://go-colly.org/docs/examples/basic/
-func main() {
+func Run() {
     // Instantiate default collector only allowed to visit 'genius.com'.
     c := colly.NewCollector(colly.AllowedDomains("genius.com"))
     // detailCollector is just a second collector to grab different data from nested objects.
@@ -86,4 +86,9 @@ func WriteFileFromString(filename string, data string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+
+func main() {
+    Run()
 }
