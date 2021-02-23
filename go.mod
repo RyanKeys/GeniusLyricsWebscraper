@@ -1,4 +1,4 @@
-module github.com/RyanKeys/genius-lyric-webscraper
+module GeniusLyricsWebscraper
 
 go 1.15
 
