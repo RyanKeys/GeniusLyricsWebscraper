@@ -1,8 +1,6 @@
 package main
 
-import (
-	"GeniusLyricsWebscraper/lyricfinder"
-)
+import "github.com/RyanKeys/GeniusLyricsWebscraper/lyricfinder"
 
 func main() {
     lyricfinder.Run()
