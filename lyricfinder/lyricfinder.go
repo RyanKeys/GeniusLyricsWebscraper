@@ -28,7 +28,8 @@ func Run() {
     detailCollector := c.Clone()
 
     // Work in Progress: Get more songs per request. Selects the "Load More" div on the site.
-    // c.OnHTML("#top-songs > div > div.PageGridCenter-q0ues6-0.Charts__LoadMore-sc-1re0f44-1.eDwRUT > div", func(e *colly.HTMLElement) {
+    // c.OnHTML("#top-songs > div > div.PageGridCenter-q0ues6-0.Charts__LoadMore-sc-1re0f44-1.eDwRUT > div",
+    // func(e *colly.HTMLElement) {
     //     c.Visit(e.Request.Method)
     // })
 
@@ -38,7 +39,8 @@ func Run() {
         if len(e.Text) >= 1 {
             // for each song in the top 100. TODO: See Work in Progress above.
             for i := 1; i < 100; i++ {
-                // Checks that the first text element is the same as the current index. AKA Makes sure you're only getting the 'top songs' by grabbing them in order. 
+                // Checks that the first text element is the same as the current index.
+                // AKA Makes sure you're only getting the 'top songs' by grabbing them in order. 
                 if string(e.Text[0]) == fmt.Sprint(i) {
                     //Run a sub-scraper 'detailCollector' on the found link.
                     link := e.Attr("href")
@@ -50,7 +52,8 @@ func Run() {
 
     //Handles the collection of lyrics from the links found by 'c.OnHTML("a[href]", func(e *colly.HTMLElement){}'
     detailCollector.OnHTML("p", func(e *colly.HTMLElement) {
-        //If Verse, Chorus, or Intro is found in any of the <p> elements; create song data and append it to list of found song lyrics. 
+        //If Verse, Chorus, or Intro is found in any of the <p> elements;
+        // create song data and append it to list of found song lyrics. 
         if strings.Contains(e.Text, "Verse") || strings.Contains(e.Text, "Chorus") || strings.Contains(e.Text, "Intro") {
             // Creates a 'Song{}' object, and saves the url, title, and lyrical content of the current <p> tag.
             s := Song{url:"genius.com" + e.Request.URL.Path, title: e.Request.URL.Path[1:len(e.Request.URL.Path)], lyrics: e.Text}
@@ -76,7 +79,8 @@ func Run() {
         for i := 0; i < len(songlst); i++ {
             //Converts 'Song{}' struct into a string.
             songdata := string(songlst[i].url + "\n" + songlst[i].title + "\n\n" + string(songlst[i].lyrics))
-            // Writes 'songdata' string to a folder on your desktop. File name will be the artist and song name followed by lyrics. Example: 'Daft-Punk-get-luck-lyrics.txt'
+            // Writes 'songdata' string to a folder on your desktop. File name will be the artist and song name followed by lyrics. 
+            // Example: 'Daft-Punk-get-luck-lyrics.txt'
             writeFileFromString(songlst[i].title + ".txt", songdata, getPathToDesktop(foldername))
         }
         fmt.Println("Finished", r.Request.URL)
@@ -90,13 +94,16 @@ func Run() {
     
 }
 
-// Private func to get current user's 'Desktop' folder location. Requires a name 'foldername' for the desired folder. Example: 'Scraped-Data' 
+// Private func to get current user's 'Desktop' folder location. Requires a name 'foldername' for the desired folder.
+// Example: 'Scraped-Data' 
 func getPathToDesktop(foldername string) string {
     session, _ := user.Current()
     return session.HomeDir + "/" + "Desktop/" + foldername
 }
 
-//Private func that needs: 'filename' a name for the file you are about to create, 'data' the string of data that will be the contents of your new file, and 'dirPath' the location where you want to write the files. 
+//Private func that needs: 'filename' a name for the file you are about to create,
+// 'data' the string of data that will be the contents of your new file,
+// and 'dirPath' the location where you want to write the files. 
 func writeFileFromString(filename string, data string, dirPath string) {
     bytesToWrite := []byte(data)
     _, err := os.Stat(dirPath)
